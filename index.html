@@ -8,7 +8,7 @@
 <body>
     <h1>Scan QR Code to Request a Song</h1>
     <img src="qr_code.png" alt="QR Code" />
-    <form id="song-request-form">
+    <form id="song-request-form" action="/request-song" method="post">
         <label for="song">Song:</label><br>
         <input type="text" id="song" name="song"><br>
         <input type="submit" value="Request Song">
@@ -20,10 +20,7 @@
             const formData = new FormData(this);
             const response = await fetch('/request-song', {
                 method: 'POST',
-                body: JSON.stringify(Object.fromEntries(formData.entries())),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                body: formData
             });
             const data = await response.json();
             alert(data.message);
