@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Song Request</title>
+</head>
+<body>
+    <h1>Scan QR Code to Request a Song</h1>
+    <img src="qr_code.png" alt="QR Code" />
+    <form id="song-request-form">
+        <label for="song">Song:</label><br>
+        <input type="text" id="song" name="song"><br>
+        <input type="submit" value="Request Song">
+    </form>
+    <script>
+        // Function to handle form submission
+        document.getElementById('song-request-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const response = await fetch('/request-song', {
+                method: 'POST',
+                body: JSON.stringify(Object.fromEntries(formData.entries())),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            alert(data.message);
+            document.getElementById('song').value = ''; // Clear input field after submission
+        });
+    </script>
+</body>
+</html>
